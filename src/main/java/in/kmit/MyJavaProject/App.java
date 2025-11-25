@@ -102,6 +102,56 @@ terminate and delete instance
 
 
 pipeline:
+pipeline {
+    agent any
+
+    tools {
+        maven 'MAVEN_HOME'
+    }
+
+    stages {
+        stage('Clone Repository & Clean') {
+            steps {
+                // Optional cleanup: delete existing folder if exists
+                bat 'if exist campus rmdir /s /q campus'
+
+                // Clone repo
+                bat 'git clone https://github.com/sohaniiiiii/campus.git'
+
+                // Clean project
+                bat 'mvn clean -f campus/pom.xml'
+            }
+        }
+
+        stage('Install') {
+            steps {
+                bat 'mvn install -f campus/pom.xml'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                bat 'mvn test -f campus/pom.xml'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                bat 'mvn package -f campus/pom.xml'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Build completed successfully!'
+        }
+        failure {
+            echo '❌ Build failed!'
+        }
+    }
+}
+
 pipeline ani annadu ani manam pipeline tho cheyalsina avasaram edhanta if use scripts ani mention chesthe pipeline {
     agent any
 
