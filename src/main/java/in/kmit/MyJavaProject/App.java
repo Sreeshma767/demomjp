@@ -17,9 +17,13 @@ if already created then
 kubectl set image deployment/myngnix nginx=nginx:latest
 
 kubectl expose deployment mynginx --type=NodePort --port=80
+kubectl expose deployment mynginx --type=NodePort --port=8090 --target-port=80
+
 kubectl scale deployment mynginx --replicas=4
+kubectl get service myngnix
 
 minikube service mynginx (or) kubectl port-forward service/mynginx 8085:80
+kubectl delete deployment mynginx
 kubectl delete service service_name
 kubectl get service ->get list of services
 
@@ -31,8 +35,8 @@ kubectl get deployment
 kubectl describe pod
 kubectl describe pod pod_name
 
-
-
+minikube tunnel
+minikube service mynginx --url
 
 nagios command:
 nagios docker image:=>
@@ -43,10 +47,11 @@ username:nagiosadmin
 password:nagios
 
 or try:
-docker pull jasonrivers/nagios:latest
+docker pull jasonrivers/nagios:latestdock
 docker run --name nagiosdemo -p 8888:80 jasonrivers/nagios:latest
-
-
+docker stop nagiosdemo
+docker images
+docker rmijasonrivers/nagios:latest
 
 aws commands:
 AWS:
@@ -82,8 +87,11 @@ nano Dockerfile (write this)=>
 FROM nginx:alpine
 COPY . /usr/share/nginx/html
 
+from tomcat:9-jdk11
+COPY target/*.war /usr/local/tomcat/webapps
+
 sudo docker build -t myserver .
-sudo docker run -d -p 80:80
+sudo docker run -d -p 80:80 myserver
 
 go to instances and open ipv4 web
 
