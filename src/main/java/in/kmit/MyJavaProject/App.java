@@ -156,53 +156,60 @@ pipeline ani annadu ani manam pipeline tho cheyalsina avasaram edhanta if use sc
     agent any
 
     tools {
-        maven 'Maven'
-        jdk 'JDK21'
+        maven 'MAVEN_HOME'     // Name must match the Maven tool name in Jenkins Global Tool Config
+        jdk 'JAVA_HOME'       // Same for JDK tool name
     }
 
     stages {
 
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/yourname/WebAppProject.git'
+                git branch: 'main', url: 'https://github.com/Sreeshma767/SampleMavenWebProject'
             }
         }
 
         stage('Maven Build') {
             steps {
-                bat "mvn clean package"
+                bat 'mvn clean package'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat "mvn test"
+                bat 'mvn test'
             }
         }
 
         stage('List WAR File') {
             steps {
-                bat "dir target\\*.war"
+                bat 'dir target\\*.war'
             }
         }
 
         stage('Deploy to Tomcat') {
             steps {
-                echo "Deploying WAR to Tomcat..."
-                // example: copy file to tomcat webapps
-                bat 'copy target\\yourapp.war C:\\tomcat\\webapps\\'
+                echo 'Deploying WAR to Tomcat...'
+
+                // Make sure your WAR name matches the one created in target/
+                bat 'copy target\\SampleMavenWebProject.war D:\\apache-tomcat-10.1.46\\webapps\\'
+
+                // Optional: restart Tomcat (if needed)
+                // bat 'D:\\apache-tomcat-10.1.46\\bin\\shutdown.bat'
+                // bat 'D:\\apache-tomcat-10.1.46\\bin\\startup.bat'
             }
         }
     }
 
     post {
         success {
-            echo "Deployment completed successfully!"
+            echo 'Deployment completed successfully!'
+        }
+        failure {
+            echo 'Build failed. Please check logs.'
         }
     }
 }
 
-ilanti script tho cheyyali
 
 
 
@@ -226,7 +233,7 @@ checkout([
 email-trigger:
 jenkins->configure system->last lo smtp ->stmp.gmail.com(@gmail.com)->advanced:smtp (username:gmail,pass:key generated)->tls->smtpport(587)and enter reciepent email->test
 extended email notification -> smtp.gamil.com 465->cred (gmail, passkey generated)->ssl
-
+gtlb ucdt davk ixic
 
 
 
